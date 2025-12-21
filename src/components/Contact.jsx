@@ -57,7 +57,7 @@ const Contact = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-5xl md:text-7xl font-bold mb-8">Let's <br /><span className="text-gradient">Interact</span></h2>
+                        <h2 className="text-4xl md:text-7xl font-bold mb-8">Let's <br /><span className="text-gradient">Interact</span></h2>
 
                         <div className="space-y-6 text-gray-400">
                             <div className="flex items-center space-x-4">

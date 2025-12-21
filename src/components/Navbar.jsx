@@ -25,7 +25,7 @@ const Navbar = () => {
             className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-40"
         >
 
-            <div className="glass-panel rounded-full px-6 py-3 flex items-center space-x-8">
+            <div className="glass-panel rounded-full px-4 md:px-6 py-2 md:py-3 flex items-center space-x-6 md:space-x-8">
                 {navItems.map((item) => (
                     <button
                         key={item.id}
