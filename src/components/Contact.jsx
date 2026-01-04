@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { motion } from 'framer-motion';
 import { Send, Mail, MapPin, Phone, Github, CheckCircle2 } from 'lucide-react';
 
@@ -14,32 +15,36 @@ const Contact = () => {
         e.preventDefault();
         setStatus('submitting');
 
+        // EmailJS Configuration
+        const SERVICE_ID = 'service_x0xp66q';
+        const TEMPLATE_ID = 'template_6ql9ohs';
+        const PUBLIC_KEY = 'gohXAOZLr1K6OpnCe';
+
+        const templateParams = {
+            from_name: formData.name,
+            from_email: formData.email,
+            to_name: 'Tharindu Madhusanka',
+            message: formData.message,
+            reply_to: formData.email,
+        };
+
         try {
-            // Updated Google Apps Script Web App URL
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbz_d_Z_G-f_Z_G_Z_G_Z_G_Z_G_Z_G_Z_G_Z_G_Z_G/exec'; // User will need to replace this with their actual deployed web app URL
+            const result = await emailjs.send(
+                SERVICE_ID,
+                TEMPLATE_ID,
+                templateParams,
+                PUBLIC_KEY
+            );
 
-            // For now, using a standard form submission pattern or instruction to the user
-            // Since I cannot deploy the backend script for them, I will implement the logic 
-            // and provide the Google Apps Script code they need to paste into their sheet.
-
-            const response = await fetch(scriptURL, {
-                method: 'POST',
-                body: new URLSearchParams(formData),
-            });
-
-            if (response.ok) {
+            if (result.status === 200) {
                 setStatus('success');
                 setFormData({ name: '', email: '', message: '' });
                 setTimeout(() => setStatus('idle'), 5000);
-            } else {
-                throw new Error('Failed to submit');
             }
         } catch (error) {
-            console.error('Submission error:', error);
-            // Even if the script URL is not yet ready, we want the UI to feel responsive
-            // I'll show success for demo purposes if they haven't set up the URL yet
-            setStatus('success');
-            setFormData({ name: '', email: '', message: '' });
+            console.error('EmailJS Error:', error);
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 3000);
         }
     };
 
